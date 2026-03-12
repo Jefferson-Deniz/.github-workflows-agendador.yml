@@ -1,6 +1,4 @@
-
-         
-       name: Executar Robo de Hora em Hora
+         name: Executar Robo de Hora em Hora
 
 on:
   schedule:
