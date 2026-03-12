@@ -1,27 +1,43 @@
-name: Executar Minerador de Hora em Hora
+
+         
+       name: Executar Robo de Hora em Hora
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Roda no minuto 0 de cada hora
-  workflow_dispatch:      # Permite rodar manualmente clicando em um botão
+    - cron: '0 * * * *' # Roda no minuto 0 de cada hora (ex: 13:00, 14:00...)
+  workflow_dispatch: # Permite que você clique num botão para testar agora
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Baixar código do repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Instalar Python
+      - name: Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
-      - name: Instalar Bibliotecas
-        run: pip install supabase
+      - name: Instalar bibliotecas
+        run: |
+          pip install supabase
+          # Se tiver outras bibliotecas, adicione aqui (ex: pip install requests)
 
-      - name: Rodar Script de Mineração
+      - name: Rodar o script
         env:
+          # Aqui o GitHub pega as chaves do "Cofre" e entrega para o script
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: python minerador.py
+        run: python minerador.py # TROQUE "seu_script.py" pelo nome real do seu arquivo
+
+#O que fazer depois de colar:
+#Ajuste o nome do arquivo: Na última linha (run: python seu_script.py), mude seu_script.py para o nome exato do arquivo que contém o seu código do robô.
+#Salve: Clique no botão verde Commit changes... no topo da página.
+#Teste agora: Vá na aba Actions (no topo do GitHub), clique em "Executar Robo..." no menu à esquerda, depois no botão cinza Run workflow > Run workflow.
+#O seu script já está pronto para receber essas variáveis (usando os.environ.get) ou você precisa de ajuda para ajustar o código Python também?
+
+
+
+
